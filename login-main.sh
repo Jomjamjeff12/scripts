@@ -1,4 +1,4 @@
-#!/usr/bin/env botify-send "TOTP copied and data secured"ash
+#!/usr/bin/env bash
 
 # Prompt for SSH password
 ssh_password="$(zenity --password --title "SSH Key Password")"
