@@ -38,10 +38,10 @@ kp_pass="$(zenity --password --title "Database password")"
 username="$(zenity --entry --title "account username")"
 
 # Get username from KeePass and check if it is valid
-if ! account_username=printf "%s" "$kp_pass" | keepassxc-cli show \
+if ! account_username="$(printf "%s" "$kp_pass" | keepassxc-cli show \
                 -a username \
                 ~/passwords/Passwords.kdbx "$username" \
-                --key-file "$keyfile"; then
+                --key-file "$keyfile")"; then
 	notify-send "Database entry or password was incorrect"
         shred -u "$keyfile"
         echo "0" > /tmp/login-cycle.txt
