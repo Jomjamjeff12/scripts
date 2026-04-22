@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-until ping -c 1 google.com >/dev/null 2>&1; do
-        sleep 1
-done
-
 while true; do
 	# turns off if the pi is disconnected until it is reconnected to the tailnet
 	if ! tailscale ping -c 1 raspi5 | grep "pong" >/dev/null 2>&1; then
