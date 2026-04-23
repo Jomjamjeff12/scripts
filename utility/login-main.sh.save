@@ -31,8 +31,6 @@ fi
 shred -u "$askpass_script"
 unset ssh_password
 
-firefox https://accounts.google.com &
-
 # Prompt for KeePass database password
 kp_pass="$(zenity --password --title "Database password")"
 
@@ -48,8 +46,9 @@ if ! account_username="$(printf "%s" "$kp_pass" | keepassxc-cli show \
         shred -u "$keyfile"
         echo "0" > /tmp/login-cycle.txt
         unset kp_pass
-	exit 1
+        exit 1
 fi
+
 
 # Copy username
 wl-copy "$account_username"
@@ -64,7 +63,7 @@ password="$(
 )"
 
 # Wait for login cycle step 2
-until [ "$(</tmp/login-cycle.txt)" = "2" ]; do
+until [ "$(</tmp/login-cycle.txt)" == "2" ]; do
         sleep 1
 done
 
@@ -83,14 +82,9 @@ totp_url="$(
 totp="$(oathtool --totp -b "$totp_url")"
 
 # Wait for login cycle step 3
-until [ "$(</tmp/login-cycle.txt)" = "3" ]; do
+until [ "$(</tmp/login-cycle.txt)" == "3" ]; do
         sleep 1
 done
-
-# opens a Google Classroom tab is school DB is selected is selected
-if [ "$username" = "school" ]; then
-	firefox https://classroom.google.com &
-fi
 
 wl-copy "$totp"
 
