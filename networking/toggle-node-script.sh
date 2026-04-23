@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-PIDFILE="/tmp/toggle_node_script.sh.pid"
+PIDFILE="/tmp/toggle-node-script.sh.pid"
 
 if [ -f "$PIDFILE" ]; then
 	kill $(cat "$PIDFILE")
@@ -7,7 +7,7 @@ if [ -f "$PIDFILE" ]; then
 	tailscale set --exit-node=
 	notify-send "Routing is Permenantly Off" "toggle disabled"
 else
-	exit_node_toggle.sh &
+	exit-node-toggle.sh &
 	echo $! > "$PIDFILE"
 	tailscale set --exit-node=raspi5
 	notify-send "Routing Toggle Enabled" "Routing is on"
