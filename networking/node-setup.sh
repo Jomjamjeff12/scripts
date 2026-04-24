@@ -10,6 +10,6 @@ if ip a | grep -q 192.168.0.228; then
 	tailscale set --exit-node=
 	notify-send "exit node inactive"
 else                              
-	toggle_node_script.sh &
+	toggle-node-script.sh &
 fi
 
