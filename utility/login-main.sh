@@ -40,10 +40,12 @@ kp_pass="$(zenity --password --title "Database password")"
 username="$(zenity --entry --title "account username")"
 
 # Get username from KeePass and check if it is valid
-if ! account_username="$(printf "%s" "$kp_pass" | keepassxc-cli show \
+if ! account_username="$(
+		printf "%s" "$kp_pass" | keepassxc-cli show \
                 -a username \
                 ~/passwords/Passwords.kdbx "$username" \
-                --key-file "$keyfile")"; then
+                --key-file "$keyfile"
+		)"; then
 	notify-send "Database entry or password was incorrect"
         shred -u "$keyfile"
         echo "0" > /tmp/login-cycle.txt
@@ -61,7 +63,7 @@ password="$(
                 -a password \
                 ~/passwords/Passwords.kdbx "$username" \
                 --key-file "$keyfile"
-)"
+	)"
 
 # Wait for login cycle step 2
 until [ "$(</tmp/login-cycle.txt)" = "2" ]; do
@@ -78,8 +80,9 @@ totp_url="$(
                 -a otp \
                 ~/passwords/Passwords.kdbx "$username" \
                 --key-file "$keyfile" \
-        | sed -n 's/.*secret=\([^&]*\).*/\1/p'
-)"
+        	| sed -n 's/.*secret=\([^&]*\).*/\1/p'
+	)"
+
 totp="$(oathtool --totp -b "$totp_url")"
 
 # Wait for login cycle step 3
