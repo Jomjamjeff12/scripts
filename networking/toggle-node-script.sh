@@ -9,6 +9,6 @@ if [ -f "$PIDFILE" ]; then
 else
 	exit-node-toggle.sh &
 	echo $! > "$PIDFILE"
-	tailscale set --exit-node=raspi5
+	tailscale set --exit-node=100.118.65.57
 	notify-send "Routing Toggle Enabled" "Routing is on"
 fi
