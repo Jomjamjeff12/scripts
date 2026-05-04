@@ -17,7 +17,7 @@ if [ "$request" = "n" ]; then
 	done
 	echo "$password_1" \
         | argon2 7d6e1fc827f47307c27953bc83448eaf \
-        -t 15 -k 30000 -p 5 \
+        -id -t 5 -k 300000 -p 1 \
         | grep "Hash" | sed -n 's/.*Hash://p' \
 	> ~/accounts/"$new_username"-credentials
 elif [ "$request" = "s" ]; then
@@ -25,7 +25,7 @@ elif [ "$request" = "s" ]; then
 	read -p "password: " password
 	password_hash="$(echo "$password" \
         	| argon2 7d6e1fc827f47307c27953bc83448eaf \
-        	-t 15 -k 30000 -p 5 \
+        	-id -t 5 -k 300000 -p 1 \
         	| grep "Hash" | sed -n 's/.*Hash://p')"
 	if [ "$password_hash" = "$(cat ~/accounts/"$username"-credentials)" ]; then
 		echo "password was correct"
