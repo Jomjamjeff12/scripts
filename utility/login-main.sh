@@ -33,25 +33,30 @@ unset ssh_password
 
 firefox https://accounts.google.com &
 
-# Prompt for KeePass database password
-kp_pass="$(zenity --password --title "Database password")"
+for i in {1..3}; do
+	# Prompt for KeePass database password
+	kp_pass="$(zenity --password --title "Database password")"
+	# Prompt for the username
+	username="$(zenity --entry --title "account username")"
 
-# Prompt for the username
-username="$(zenity --entry --title "account username")"
-
-# Get username from KeePass and check if it is valid
-if ! account_username="$(
-		printf "%s" "$kp_pass" | keepassxc-cli show \
-                -a username \
-                ~/passwords/Passwords.kdbx "$username" \
-                --key-file "$keyfile"
-		)"; then
-	notify-send "Database entry or password was incorrect"
-        shred -u "$keyfile"
-        echo "0" > /tmp/login-cycle.txt
-        unset kp_pass
-	exit 1
-fi
+	# Get username from KeePass and check if it is valid
+	if ! account_username="$(
+			printf "%s" "$kp_pass" | keepassxc-cli show \
+	                -a username \
+	                ~/passwords/Passwords.kdbx "$username" \
+	                --key-file "$keyfile"
+			)"; then
+		notify-send "Database entry or password was incorrect"
+		if [ "$i" = "3"]; then
+			echo "0" > /tmp/login-cycle.txt
+			unset kp_pass
+			shred -u "$keyfile"
+			exit 1
+		fi
+ 	else
+		break
+	fi
+done
 
 # Copy username
 wl-copy "$account_username"
