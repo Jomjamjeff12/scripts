@@ -79,21 +79,21 @@ wl-copy "$password"
 notify-send "Password copied"
 unset password
 
+# Wait for login cycle step 3
+until [ "$(</tmp/login-cycle.txt)" = "3" ]; do
+        sleep 1
+done
+
 # Extract TOTP secret and generate code
 totp_url="$(
         printf "%s" "$kp_pass" | keepassxc-cli show \
                 -a otp \
                 ~/passwords/Passwords.kdbx "$username" \
                 --key-file "$keyfile" \
-        	| sed -n 's/.*secret=\([^&]*\).*/\1/p'
-	)"
+                | sed -n 's/.*secret=\([^&]*\).*/\1/p'
+        )"
 
 totp="$(oathtool --totp -b "$totp_url")"
-
-# Wait for login cycle step 3
-until [ "$(</tmp/login-cycle.txt)" = "3" ]; do
-        sleep 1
-done
 
 # opens a Google Classroom tab is school DB is selected is selected
 if [ "$username" = "school" ]; then
