@@ -47,7 +47,7 @@ for i in {1..3}; do
 	                --key-file "$keyfile"
 			)"; then
 		notify-send "Database entry or password was incorrect"
-		if [ "$i" = "3"]; then
+		if [ "$i" = "3" ]; then
 			echo "0" > /tmp/login-cycle.txt
 			unset kp_pass
 			shred -u "$keyfile"
@@ -62,18 +62,18 @@ done
 wl-copy "$account_username"
 notify-send "Username copied"
 
+# Wait for login cycle step 2
+until [ "$(</tmp/login-cycle.txt)" = "2" ]; do
+        sleep 1
+done
+
 # Get password from KeePass
 password="$(
         printf "%s" "$kp_pass" | keepassxc-cli show \
                 -a password \
                 ~/passwords/Passwords.kdbx "$username" \
                 --key-file "$keyfile"
-	)"
-
-# Wait for login cycle step 2
-until [ "$(</tmp/login-cycle.txt)" = "2" ]; do
-        sleep 1
-done
+        )"
 
 wl-copy "$password"
 notify-send "Password copied"
