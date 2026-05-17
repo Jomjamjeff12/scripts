@@ -50,7 +50,7 @@ for i in {1..3}; do
 		if [ "$i" = "3" ]; then
 			echo "0" > /tmp/login-cycle.txt
 			unset kp_pass
-			shred -u "$keyfile"
+			shred -u "$keyfile" "$askpass_script"
 			exit 1
 		fi
  	else
