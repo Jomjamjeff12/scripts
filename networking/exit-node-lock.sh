@@ -3,7 +3,7 @@
 tailscale set --exit-node=raspi5
 
 notify-send "routing is permenantly on" "regardless of connection"
-while ! tailscale status | grep "offers exit node"; do
+until tailscale status | grep "offers exit node"; do
 
 	if ! ping -c 1 google.com >/dev/null; then
 		notify-send "NO INTERNET" "local machine disconnected"
