@@ -8,5 +8,5 @@ elif [ "$1" == "-t" ]; then
   rsync -avz -e "ssh -i ~/.ssh/desktop-to-thinkpad" \
     "$2" \
     "will@100.95.223.54:$1"
-
+fi
 
