@@ -5,7 +5,7 @@ if [ "$1" == "-f" ]; then
     "will@100.93.247.32:$1" \
     "$2"
 elif [ "$1" == "-t" ]; then
-  rsync -avz -e "ssh -i ~/.ssh/desktop-to-thinkpad" \
+  rsync -avz -e "ssh -i ~/.ssh/thinkpad-to-pc" \
     "$2" \
     "will@100.93.247.32:$1"
 fi
