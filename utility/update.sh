@@ -6,7 +6,7 @@ done
 
 notify-send "Updating..."
 
-sudo pacman -Syu --noconfirm &> ~/debug/pacman
+pkexec pacman -Syu --noconfirm &> ~/debug/pacman
 pacman_status=$?
 
 yay -Syu --noconfirm &> ~/debug/yay
@@ -22,7 +22,7 @@ if [ -z "$yay_packages" ]; then
 	yay_packages=0
 fi
 
-total_packages=$(($yay_packages+$pacman_packages))
+total_packages=$(($yay_packages + $pacman_packages))
 
 if ! cat ~/debug/yay | grep -q "there is nothing to do" ; then
 	update_status+="AUR "
