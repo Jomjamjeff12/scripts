@@ -6,10 +6,10 @@ done
 
 notify-send "Updating..."
 
-pkexec pacman -Syu --noconfirm &> ~/debug/pacman
+sudo pacman -Syu --noconfirm > ~/debug/pacman 2>&1
 pacman_status=$?
 
-yay -Syu --noconfirm &> ~/debug/yay
+yay -Syu --noconfirm > ~/debug/yay 2>&1
 yay_status=$?
 
 pacman_packages=$(cat ~/debug/pacman | grep Packages | sed 's/.*(//g' | sed 's/).*//g')
