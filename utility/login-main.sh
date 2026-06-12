@@ -31,7 +31,7 @@ fi
 shred -u "$askpass_script"
 unset ssh_password
 
-firefox https://accounts.google.com &
+zen-browser --new-window "https://accounts.google.com/AccountChooser?continue=" &
 
 for i in {1..3}; do
 	# Prompt for KeePass database password
@@ -96,9 +96,7 @@ totp_url="$(
 totp="$(oathtool --totp -b "$totp_url")"
 
 # opens a Google Classroom tab is school DB is selected is selected
-if [ "$username" = "school" ]; then
-	firefox https://classroom.google.com &
-fi
+
 
 wl-copy "$totp"
 

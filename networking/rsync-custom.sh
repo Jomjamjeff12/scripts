@@ -11,7 +11,7 @@ elif [ "$1" = "-p" ]; then
   keyfile="id_ed25519"
   dest_ip="100.118.65.57"
 
-elif [ "$1" = "-h" ]; then
+elif [ "$1" = "-h" ] || [ "$1" = "" ]; then
   echo "
   use: rsync-custom [device] [send/recieve] [source] [destination]
   device:       -t thinkpad
@@ -30,13 +30,13 @@ fi
 
 if [ "$2" == "-r" ]; then
   rsync -avz -e "ssh -i ~/.ssh/$keyfile" \
-    "will@$dest_ip:$3" \
-    "$4"
+    will@$dest_ip:$3 \
+    $4
 
 elif [ "$2" == "-s" ]; then
   rsync -avz -e "ssh -i ~/.ssh/$keyfile" \
-    "$3" \
-    "will@$dest_ip:$4"
+    $3 \
+    will@$dest_ip:$4
 else
   echo "invalid arg 2"
   exit 1
